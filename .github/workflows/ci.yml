@@ -24,7 +24,7 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
       - name: Build with Maven
-        run: echo mvn install compile ..
+        run: mvn install
 
   # q: do we need upload artifact or is the maven cache enough to get all we need?
   archetype-tests:
@@ -45,3 +45,5 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: echo mvn archetype generate  ${{ matrix.ararchetype }}
+
+      - run: find . -name demo-0.0.1-SNAPSHOT.jar
