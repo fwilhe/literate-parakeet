@@ -34,7 +34,7 @@ jobs:
       fail-fast: false
       matrix:
         archetype: [ 'scp-cf-tomee', 'scp-cf-spring', 'scp-cf-spring-jakarta', 'scp-neo-javaee7' ]
-    name: Java ${{ matrix.ararchetype }}
+    name: archetype ${{ matrix.archetype }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
@@ -44,6 +44,6 @@ jobs:
           java-version: 17
           cache: maven
       - name: Build with Maven
-        run: echo mvn archetype generate  ${{ matrix.ararchetype }}
+        run: echo mvn archetype generate  ${{ matrix.archetype }}
 
-      - run: find . -name demo-0.0.1-SNAPSHOT.jar
+      - run: sudo find / -name demo-0.0.1-SNAPSHOT.jar
