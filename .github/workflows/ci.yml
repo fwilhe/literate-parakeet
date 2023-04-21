@@ -48,9 +48,10 @@ jobs:
           cache: maven
       - name: Generate Project from Archetype ${{matrix.archetype}}
         run:  mvn archetype:generate -B -DarchetypeGroupId=com.sap.cloud.sdk.archetypes -DarchetypeArtifactId=${{matrix.archetype}} -DarchetypeVersion=4.12.0 -DgroupId=com.sap.test -DartifactId=example-${{matrix.archetype}} -Dversion=1.0-SNAPSHOT -Dpackage=com.sap.test -Dhttp.keepAlive=false
+        working-directory: /home/runner/work/_temp
       - name: Build Project based on Archetype ${{matrix.archetype}}
         run: mvn -B verify
-        working-directory: example-${{matrix.archetype}}
+        working-directory: /home/runner/work/_temp/example-${{matrix.archetype}}
 
   deploy-snapshot:
     runs-on: ubuntu-latest
