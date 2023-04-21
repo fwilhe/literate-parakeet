@@ -46,10 +46,11 @@ jobs:
           distribution: "temurin"
           java-version: 17
           cache: maven
-      - name: Build with Maven
-        run: echo mvn archetype generate  ${{ matrix.archetype }}
-
-      - run: find /home/runner/.m2/repository/com/example/demo
+      - name: Generate Project from Archetype ${{matrix.archetype}}
+        run:  mvn archetype:generate -B -DarchetypeGroupId=com.sap.cloud.sdk.archetypes -DarchetypeArtifactId=${{matrix.archetype}} -DarchetypeVersion=4.12.0 -DgroupId=com.sap.test -DartifactId=example-${{matrix.archetype}} -Dversion=1.0-SNAPSHOT -Dpackage=com.sap.test -Dhttp.keepAlive=false
+      - name: Build Project based on Archetype ${{matrix.archetype}}
+        run: mvn -B verify
+        working-directory: example-${{matrix.archetype}}
 
   deploy-snapshot:
     runs-on: ubuntu-latest
