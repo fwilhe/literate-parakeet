@@ -26,9 +26,13 @@ jobs:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: maven
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.1
       - run: mvn --version
       - name: Build with Maven
-        run: mvn install
+        run: mvn install -X
 
   archetype-tests:
     runs-on: ubuntu-latest
@@ -51,13 +55,17 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: 17
+          java-version: 8
           cache: maven
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.1
       - name: Generate Project from Archetype ${{matrix.archetype}}
-        run:  mvn archetype:generate -B -DarchetypeGroupId=com.sap.cloud.sdk.archetypes -DarchetypeArtifactId=${{matrix.archetype}} -DarchetypeVersion=4.12.0 -DgroupId=com.sap.test -DartifactId=example-${{matrix.archetype}} -Dversion=1.0-SNAPSHOT -Dpackage=com.sap.test -Dhttp.keepAlive=false
+        run:  mvn archetype:generate -X -B -DarchetypeGroupId=com.sap.cloud.sdk.archetypes -DarchetypeArtifactId=${{matrix.archetype}} -DarchetypeVersion=4.12.0 -DgroupId=com.sap.test -DartifactId=example-${{matrix.archetype}} -Dversion=1.0-SNAPSHOT -Dpackage=com.sap.test -Dhttp.keepAlive=false
         working-directory: /home/runner/work/_temp
       - name: Build Project based on Archetype ${{matrix.archetype}}
-        run: mvn -B verify
+        run: mvn -B verify -X
         working-directory: /home/runner/work/_temp/example-${{matrix.archetype}}
 
   deploy-snapshot:
