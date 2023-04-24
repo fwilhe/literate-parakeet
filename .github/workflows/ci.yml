@@ -9,11 +9,11 @@ on:
 
 jobs:
   build:
+    name: Compile
     runs-on: ubuntu-latest
     env:
       MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
       MAVEN_ARGS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-    name: Compile
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
@@ -33,6 +33,7 @@ jobs:
         run: mvn -DskipTests compile
 
   archetype-tests:
+    name: Test Archetype ${{ matrix.archetype }}
     runs-on: ubuntu-latest
     env:
       MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -45,7 +46,6 @@ jobs:
           - "scp-cf-tomee"
           - "scp-cf-spring"
           # - "scp-cf-spring-jakarta"
-    name: archetype ${{ matrix.archetype }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
@@ -66,6 +66,7 @@ jobs:
         working-directory: /home/runner/work/_temp/example-${{matrix.archetype}}
 
   tests:
+    name: Unit Tests
     runs-on: ubuntu-latest
     needs: build
     env:
@@ -83,6 +84,7 @@ jobs:
         run: mvn test -X
 
   copyright-header-check:
+    name: Open Source Compliance Check
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -96,6 +98,7 @@ jobs:
       - run: echo foo
 
   static-code-checks:
+    name: Static Code Checks
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -109,6 +112,7 @@ jobs:
       - run: echo foo
 
   deploy-snapshot:
+    name: Deploy Snapshot
     runs-on: ubuntu-latest
     needs:
       - build
