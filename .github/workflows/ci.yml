@@ -30,8 +30,10 @@ jobs:
       - run: mvn --version
       - name: Build with Maven
         run: mvn -DskipTests install
-      - name: Build with Maven
-        run: mvn -DskipTests compile
+
+
+      - run: find ~/.m2 -maxdepth 5
+      - run: find ~/.m2 -name '*demo*jar'
 
   archetype-tests:
     name: Test Archetype ${{ matrix.archetype }}
@@ -56,6 +58,10 @@ jobs:
         uses: stCarolas/setup-maven@v4.5
         with:
           maven-version: 3.9.1
+          
+      - run: find ~/.m2 -maxdepth 5
+      - run: find ~/.m2 -name '*demo*jar'
+          
       - name: Generate Project from Archetype ${{matrix.archetype}}
         run:  mvn archetype:generate -DarchetypeGroupId=com.sap.cloud.sdk.archetypes -DarchetypeArtifactId=${{matrix.archetype}} -DarchetypeVersion=4.12.0 -DgroupId=com.sap.test -DartifactId=example-${{matrix.archetype}} -Dversion=1.0-SNAPSHOT -Dpackage=com.sap.test -Dhttp.keepAlive=false
         working-directory: /home/runner/work/_temp
