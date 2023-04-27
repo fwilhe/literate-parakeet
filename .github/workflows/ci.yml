@@ -14,8 +14,6 @@ env:
 jobs:
   build:
     name: Compile
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -39,8 +37,6 @@ jobs:
 
   archetype-tests:
     name: Test Archetype ${{ matrix.archetype }}
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     needs: build
     strategy:
@@ -75,8 +71,6 @@ jobs:
 
   tests:
     name: Unit Tests
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -92,8 +86,6 @@ jobs:
 
   copyright-header-check:
     name: Open Source Compliance Check
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -108,8 +100,6 @@ jobs:
 
   static-code-checks:
     name: Static Code Checks
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -124,8 +114,6 @@ jobs:
 
   deploy-snapshot:
     name: Deploy Snapshot
-    container: 
-      image: node:18
     runs-on: ubuntu-latest
     needs:
       - build
