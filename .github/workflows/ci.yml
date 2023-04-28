@@ -9,7 +9,7 @@ on:
 
 env:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MVN_CLI_ARGS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  MVN_CLI_ARGS: "-Dmaven.repo.local=local_maven_repo/ --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 jobs:
 
@@ -37,9 +37,9 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - run: mkdir -p test_m2
+      # - run: mkdir -p local_maven_repo
       - name: Build with Maven
-        run: mvn -Dmaven.repo.local=test_m2/ $MVN_CLI_ARGS -DskipTests install -X
+        run: mvn $MVN_CLI_ARGS -DskipTests install -X
       - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
       # Stash target so we can avoid the need to recompile in later jobs
@@ -49,11 +49,11 @@ jobs:
           path: target
       - uses: actions/upload-artifact@v3
         with:
-          name: test_m2
-          path: test_m2
+          name: local_maven_repo
+          path: local_maven_repo
       - run: ls -l --time-style=full-iso target
       - run: find ~/.m2 -name spring-boot-starter-web-3.0.6.jar
-      - run: find test_m2 -name spring-boot-starter-web-3.0.6.jar
+      - run: find local_maven_repo -name spring-boot-starter-web-3.0.6.jar
 
   archetype-tests:
     name: Test Archetype ${{ matrix.archetype }}
@@ -101,14 +101,14 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name: test_m2
-          path: test_m2
+          name: local_maven_repo
+          path: local_maven_repo
       - run: ls -l --time-style=full-iso target
 
       - name: Build with Maven
-        run: mvn -Dmaven.repo.local=test_m2/ $MVN_CLI_ARGS test -X
+        run: mvn $MVN_CLI_ARGS test -X
       - run: find ~/.m2 -name spring-boot-starter-web-3.0.6.jar
-      - run: find test_m2 -name spring-boot-starter-web-3.0.6.jar
+      - run: find local_maven_repo -name spring-boot-starter-web-3.0.6.jar
 
       - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
