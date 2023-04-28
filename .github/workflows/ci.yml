@@ -96,7 +96,7 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - Name: Download compiled classes
+      - name: Download compiled classes
         uses: actions/download-artifact@v3
         with:
           name: target
@@ -142,7 +142,7 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - Name: Download compiled classes
+      - name: Download compiled classes
         uses: actions/download-artifact@v3
         with:
           name: target
@@ -172,7 +172,7 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - Name: Download compiled classes
+      - name: Download compiled classes
         uses: actions/download-artifact@v3
         with:
           name: target
