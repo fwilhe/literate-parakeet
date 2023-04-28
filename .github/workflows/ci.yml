@@ -10,7 +10,6 @@ on:
 env:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
   MVN_CLI_ARGS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  JAVA_VERSION: '17'
 
 jobs:
 
@@ -23,7 +22,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - run: mvn $MVN_CLI_ARGS net.revelc.code.formatter:formatter-maven-plugin:2.22.0:validate
 
@@ -36,7 +35,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - name: Build with Maven
         run: mvn $MVN_CLI_ARGS -DskipTests install -X
@@ -65,7 +64,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
           
       - name: Generate Project from Archetype ${{matrix.archetype}}
@@ -85,7 +84,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - uses: actions/download-artifact@v3
         with:
@@ -105,7 +104,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - run: echo foo
 
@@ -119,7 +118,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - uses: actions/download-artifact@v3
         with:
@@ -142,7 +141,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: ${{ JAVA_VERSION }}
+          java-version: "17"
           cache: maven
       - uses: actions/download-artifact@v3
         with:
