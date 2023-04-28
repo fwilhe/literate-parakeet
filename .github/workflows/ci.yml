@@ -48,11 +48,13 @@ jobs:
         with:
           name: target
           path: target
+          retention-days: '1'
       - name: Stash local maven repo
         uses: actions/upload-artifact@v3
         with:
           name: local_maven_repo
           path: local_maven_repo
+          retention-days: '1'
       - run: ls -l --time-style=full-iso target
       - run: find ~/.m2 -name spring-boot-starter-web-3.0.6.jar
       - run: find local_maven_repo -name spring-boot-starter-web-3.0.6.jar
