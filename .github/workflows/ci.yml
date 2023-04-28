@@ -43,11 +43,13 @@ jobs:
       - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
       # Stash target so we can avoid the need to recompile in later jobs
-      - uses: actions/upload-artifact@v3
+      - name: Stash compiled classes
+        uses: actions/upload-artifact@v3
         with:
           name: target
           path: target
-      - uses: actions/upload-artifact@v3
+      - name: Stash local maven repo
+        uses: actions/upload-artifact@v3
         with:
           name: local_maven_repo
           path: local_maven_repo
@@ -94,12 +96,14 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - uses: actions/download-artifact@v3
+      - Name: Download compiled classes
+        uses: actions/download-artifact@v3
         with:
           name: target
           path: target
 
-      - uses: actions/download-artifact@v3
+      - name: Download local maven repo
+        uses: actions/download-artifact@v3
         with:
           name: local_maven_repo
           path: local_maven_repo
@@ -138,10 +142,17 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - uses: actions/download-artifact@v3
+      - Name: Download compiled classes
+        uses: actions/download-artifact@v3
         with:
           name: target
           path: target
+
+      - name: Download local maven repo
+        uses: actions/download-artifact@v3
+        with:
+          name: local_maven_repo
+          path: local_maven_repo
       - run: echo foo
 
   deploy-snapshot:
@@ -161,8 +172,15 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
-      - uses: actions/download-artifact@v3
+      - Name: Download compiled classes
+        uses: actions/download-artifact@v3
         with:
           name: target
           path: target
+
+      - name: Download local maven repo
+        uses: actions/download-artifact@v3
+        with:
+          name: local_maven_repo
+          path: local_maven_repo
       - run: echo foo
