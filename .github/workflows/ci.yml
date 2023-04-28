@@ -39,7 +39,7 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn $MVN_CLI_ARGS -DskipTests install -X
-      - run: mvn dependency:list -Dsort=true
+      - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
       # Stash target so we can avoid the need to recompile in later jobs
       - uses: actions/upload-artifact@v3
@@ -92,7 +92,7 @@ jobs:
           path: target
       - name: Build with Maven
         run: mvn $MVN_CLI_ARGS test -X
-      - run: mvn dependency:list -Dsort=true
+      - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
   copyright-header-check:
     name: Open Source Compliance Check
