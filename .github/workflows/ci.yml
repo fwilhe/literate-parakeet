@@ -37,8 +37,9 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: maven
+      - run: mkdir -p test_m2
       - name: Build with Maven
-        run: mvn $MVN_CLI_ARGS -DskipTests install -X
+        run: mvn -Dmaven.repo.local=test_m2/ $MVN_CLI_ARGS -DskipTests install -X
       - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
       # Stash target so we can avoid the need to recompile in later jobs
@@ -46,8 +47,13 @@ jobs:
         with:
           name: target
           path: target
+      - uses: actions/upload-artifact@v3
+        with:
+          name: test_m2
+          path: test_m2
       - run: ls -l --time-style=full-iso target
       - run: find ~/.m2 -name spring-boot-starter-web-3.0.6.jar
+      - run: find test_m2 -name spring-boot-starter-web-3.0.6.jar
 
   archetype-tests:
     name: Test Archetype ${{ matrix.archetype }}
@@ -92,11 +98,17 @@ jobs:
         with:
           name: target
           path: target
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: test_m2
+          path: test_m2
       - run: ls -l --time-style=full-iso target
 
       - name: Build with Maven
-        run: mvn $MVN_CLI_ARGS test -X
+        run: mvn -Dmaven.repo.local=test_m2/ $MVN_CLI_ARGS test -X
       - run: find ~/.m2 -name spring-boot-starter-web-3.0.6.jar
+      - run: find test_m2 -name spring-boot-starter-web-3.0.6.jar
 
       - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
 
