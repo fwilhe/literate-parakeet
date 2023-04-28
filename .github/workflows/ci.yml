@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - run: mvn $MVN_CLI_ARGS net.revelc.code.formatter:formatter-maven-plugin:2.22.0:validate
 
@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - name: Build with Maven
         run: mvn $MVN_CLI_ARGS -DskipTests install -X
@@ -65,7 +65,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
           
       - name: Generate Project from Archetype ${{matrix.archetype}}
@@ -85,7 +85,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - uses: actions/download-artifact@v3
         with:
@@ -105,7 +105,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - run: echo foo
 
@@ -119,7 +119,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - uses: actions/download-artifact@v3
         with:
@@ -142,7 +142,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: $JAVA_VERSION
+          java-version: ${{ JAVA_VERSION }}
           cache: maven
       - uses: actions/download-artifact@v3
         with:
