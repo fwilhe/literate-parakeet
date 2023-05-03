@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  MAVEN_OPTS: "-Dmaven.repo.local=local_maven_repo/ -Dhttps.protocols=TLSv1.2 -Dmaven.color=false"
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false"
   MVN_CLI_ARGS: "--batch-mode --no-transfer-progress --errors --fail-at-end --show-version"
 
 jobs:
@@ -27,19 +27,26 @@ jobs:
       - run: mvn $MVN_CLI_ARGS net.revelc.code.formatter:formatter-maven-plugin:2.22.0:validate
 
   build:
-    name: Compile
     runs-on: ubuntu-latest
+    # Permissions block is optional, useful for dependabot checks
+    permissions:
+      checks: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ '17', '20' ]
+    name: Build, Test and Verify JDK ${{ matrix.Java }}
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
         uses: actions/setup-java@v3
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: ${{ matrix.java }}
           cache: maven
       - name: Build with Maven
-        run: mvn $MVN_CLI_ARGS verify spotbugs:spotbugs
-        
-      - uses: jwgmeligmeyling/spotbugs-github-action@master
-        with:
-          path: '**/spotbugsXml.xml'
+        run: mvn $MVN_CLI_ARGS verify
+      - name: Publish Test Report
+        if: success() || failure()
+        uses: scacap/action-surefire-report@v1
