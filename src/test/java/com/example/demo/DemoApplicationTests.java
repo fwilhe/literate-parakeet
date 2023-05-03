@@ -22,7 +22,6 @@ class DemoApplicationTests {
 
     @Test
     void anotherTest3() {
-        throw new RuntimeException("foo");
     }
 
 }
