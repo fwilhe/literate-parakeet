@@ -15,4 +15,14 @@ class DemoApplicationTests {
         
     }
 
+    @Test
+    void anotherTest2() {
+        
+    }
+
+    @Test
+    void anotherTest2() {
+        throw new RuntimeException("foo");
+    }
+
 }
