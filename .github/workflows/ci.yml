@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
-  MVN_CLI_ARGS: "-Dmaven.repo.local=local_maven_repo/ --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.color=false --no-transfer-progress"
+  MVN_CLI_ARGS: "-Dmaven.repo.local=local_maven_repo/ --batch-mode --errors --fail-at-end --show-version"
 
 jobs:
 
