@@ -21,7 +21,7 @@ class DemoApplicationTests {
     }
 
     @Test
-    void anotherTest2() {
+    void anotherTest3() {
         throw new RuntimeException("foo");
     }
 
