@@ -39,8 +39,7 @@ jobs:
           cache: maven
       # - run: mkdir -p local_maven_repo
       - name: Build with Maven
-        run: mvn $MVN_CLI_ARGS -DskipTests install -X
-      - run: mvn $MVN_CLI_ARGS dependency:list -Dsort=true
+        run: mvn $MVN_CLI_ARGS -DskipTests install
 
       # Stash target so we can avoid the need to recompile in later jobs
       - name: Stash compiled classes
