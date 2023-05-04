@@ -15,4 +15,13 @@ class DemoApplicationTests {
         
     }
 
+    @Test
+    void anotherTest2() {
+        
+    }
+
+    @Test
+    void anotherTest3() {
+    }
+
 }
