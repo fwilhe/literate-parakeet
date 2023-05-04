@@ -28,6 +28,10 @@ jobs:
 
   pmd:
     runs-on: ubuntu-latest
+    # Permissions block is optional, useful for dependabot checks
+    permissions:
+      checks: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
