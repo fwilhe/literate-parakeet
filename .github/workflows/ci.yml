@@ -64,6 +64,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: pmd-report.sarif
+          category: pmd
 
 
   build:
@@ -71,6 +72,11 @@ jobs:
     # Permissions block is optional, useful for dependabot checks
     permissions:
       checks: write
+      contents: read
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
       contents: read
     strategy:
       fail-fast: false
@@ -90,3 +96,10 @@ jobs:
       - name: Publish Test Report
         if: success() || failure()
         uses: scacap/action-surefire-report@v1
+      - run: mvn com.github.spotbugs:spotbugs-maven-plugin:4.7.3.4:spotbugs -Dspotbugs.sarifOutput=true
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: datamodel/fluent-result/target/spotbugsSarif.json
+          category: spotbugs
+
