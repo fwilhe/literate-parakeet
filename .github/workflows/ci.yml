@@ -22,10 +22,10 @@ jobs:
           import yaml
 
           with open("foo.yml", "r") as stream:
-          try:
-              print(yaml.safe_load(stream))
-          except yaml.YAMLError as exc:
-              print(exc)
+            try:
+                print(yaml.safe_load(stream))
+            except yaml.YAMLError as exc:
+                print(exc)
 
   formatting:
     name: Check Formatting
