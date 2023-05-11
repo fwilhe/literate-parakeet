@@ -13,6 +13,20 @@ env:
 
 jobs:
 
+  parse_config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - shell: python
+        run: |
+          import yaml
+
+          with open("foo.yml", "r") as stream:
+          try:
+              print(yaml.safe_load(stream))
+          except yaml.YAMLError as exc:
+              print(exc)
+
   formatting:
     name: Check Formatting
     runs-on: ubuntu-latest
